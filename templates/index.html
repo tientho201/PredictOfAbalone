@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Dự đoán</title>
+</head>
+<body>
+    <h1>Dự đoán kết quả với mô hình của bạn</h1>
+    <form action="/predict" method="post">
+        <!-- Chuyển từ input sang select cho Sex -->
+        <label for="sex">Giới tính (Sex):</label>
+        <select name="feature1" id="sex" required>
+            <option value="" disabled selected>Chọn</option>
+            <option value="F">F (Female)</option>
+            <option value="M">M (Male)</option>
+            <option value="I">I (Infant)</option>
+        </select>
+        
+        <input type="text" name="feature2" placeholder="Length" required>
+        <input type="text" name="feature3" placeholder="Diameter" required>
+        <input type="text" name="feature4" placeholder="Height" required>
+        <input type="text" name="feature5" placeholder="Whole weight" required>
+        <input type="text" name="feature6" placeholder="Whole weight.1" required>
+        <input type="text" name="feature7" placeholder="Whole weight.2" required>
+        <input type="text" name="feature8" placeholder="Shell weight" required>
+        <button type="submit">Dự đoán</button>
+    </form>
+
+    {% if prediction_text %}
+        <h2>{{ prediction_text }}</h2>
+    {% endif %}
+</body>
+</html>
