@@ -1,34 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ứng dụng Dự đoán</title>
+    <style>
+        body{
+            background-image: url(https://http2.mlstatic.com/concha-de-abulon-en-bruto-por-kilo-D_NQ_NP_3729-MLM4623475852_072013-F.jpg) ;
+            background-size : 100% ;
+        }
+        h1 {
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            color: white;
+
+        }
+        input {
+            margin: 10px 20px;
+            padding: 5px 5px;
+            
+        }
+
+        label {
+            margin: 0 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        select {
+            padding: 6px;
+            margin-right: 16px;
+        }
+
+        .choose_model_sex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .input_info{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .btn_predict{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        button{
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        h2{
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Dự đoán kết quả với mô hình của bạn</h1>
+    <h1>Dự đoán tuổi của bào ngư</h1>
     <form action="/predict" method="post">
-        <!-- Chuyển từ input sang select cho Sex -->
-        <label for="sex">Giới tính (Sex):</label>
-        <select name="feature1" id="sex" required>
-            <option value="" disabled selected>Chọn</option>
-            <option value="F">F (Female)</option>
-            <option value="M">M (Male)</option>
-            <option value="I">I (Infant)</option>
-        </select>
-        
-        <input type="text" name="feature2" placeholder="Length" required>
-        <input type="text" name="feature3" placeholder="Diameter" required>
-        <input type="text" name="feature4" placeholder="Height" required>
-        <input type="text" name="feature5" placeholder="Whole weight" required>
-        <input type="text" name="feature6" placeholder="Whole weight.1" required>
-        <input type="text" name="feature7" placeholder="Whole weight.2" required>
-        <input type="text" name="feature8" placeholder="Shell weight" required>
-        <button type="submit">Dự đoán</button>
+        <div class="choose_model_sex">
+            <!-- Thêm combobox để chọn mô hình dự đoán -->
+            <label for="model">Chọn mô hình dự đoán:</label>
+            <select name="model" id="model" required>
+                <option value="" disabled selected>Chọn mô hình</option>
+                <option value="xgb">XGBoost</option>
+                <option value="catboost">CatBoost</option>
+            </select>
+            <!-- Chuyển từ input sang select cho Sex -->
+            <label for="sex">Giới tính (Sex):</label>
+            <select name="feature1" id="sex" required>
+                <option value="" disabled selected>Chọn</option>
+                <option value="F">F (Female)</option>
+                <option value="M">M (Male)</option>
+                <option value="I">I (Infant)</option>
+            </select>
+
+        </div>
+        <div class="input_info">
+            <input type="text" name="feature2" placeholder="Length" required>
+            <input type="text" name="feature3" placeholder="Diameter" required>
+            <input type="text" name="feature4" placeholder="Height" required>
+            <input type="text" name="feature5" placeholder="Whole weight" required>
+            <input type="text" name="feature6" placeholder="Whole weight.1" required>
+            <input type="text" name="feature7" placeholder="Whole weight.2" required>
+            <input type="text" name="feature8" placeholder="Shell weight" required>
+
+        </div>
+        <div  class="btn_predict" >
+            <button type="submit">Dự đoán</button>
+        </div>
     </form>
 
     {% if prediction_text %}
-        <h2>{{ prediction_text }}</h2>
+    <h2>{{ prediction_text }}</h2>
     {% endif %}
 </body>
+
 </html>

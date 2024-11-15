@@ -83,28 +83,24 @@ y = dataset['Rings'].values
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
-dtrain = xgb.DMatrix(X, label=y)
 
-# Định nghĩa các giá trị tham số để thử nghiệm chi tiết hơn
-best_params = {
-    'learning_rate': 0.02708319027879099, 
-    'n_estimators': 1000,                 # Sử dụng 'num_boost_round' là 'n_estimators' trong XGBRegressor
-    'reg_alpha': 0.14219650343206225, 
-    'reg_lambda': 0.5045620145662986, 
-    'max_depth': 12, 
-    'subsample': 0.9537603851451735,
-    'colsample_bytree': 0.7819555259366398, 
-    'min_child_weight': 1.03921704772634,
-    'objective': 'reg:squarederror',  # Hàm mục tiêu cho bài toán hồi quy
-    'eval_metric': 'rmse', 
-}
-evals = [(dtrain, 'train')]
-model = xgb.train(best_params, dtrain, num_boost_round=1000, evals=evals, early_stopping_rounds=10)
+best_params_cat ={'learning_rate': 0.07855075323884125, 'n_estimators': 489, 'max_depth': 7,
+                  'subsample': 0.8569934338945397, 'colsample_bylevel': 0.8150591618201379,
+                  'reg_lambda': 0.4264547280178772}
+model_cat = CatBoostRegressor(**best_params_cat)
+model_cat.fit(X, y)
+
+best_params = {'learning_rate': 0.02708319027879099, 'n_estimators': 495, 'reg_alpha': 0.14219650343206225,
+               'reg_lambda': 0.5045620145662986, 'max_depth': 12, 'subsample': 0.9537603851451735,
+               'colsample_bytree': 0.7819555259366398, 'min_child_weight': 1.03921704772634}
+model_xgb = XGBRegressor(**best_params)
+model_xgb.fit(X, y)
 
 # Lưu mô hình đã huấn luyện
-joblib.dump(model, 'model/abalone_model.pkl')
+joblib.dump(model_cat, 'model/abalone_model_cat.pkl')
+joblib.dump(model_xgb, 'model/abalone_model_xgb.pkl')
 
-print("Mô hình XGBoost đã được lưu thành công vào file 'model/abalone_model.pkl'")
-
+print("Mô hình Catboost đã được lưu thành công vào file 'model/abalone_model_cat.pkl'")
+print("Mô hình Catboost đã được lưu thành công vào file 'model/abalone_model_xgb.pkl'")
 
 
